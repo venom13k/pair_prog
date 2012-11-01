@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<time.h>
 
-int patients(int *yy, int *mm, int *dd, int *hh1,  int *m1, int *s1, int *hh2, int *m2, int *s2, long int *reception) {
+int patients(int *yy, int *mm, int *dd, int *hh1,  int *m1, int *s1, int *hh2, int *m2, int *s2, long *reception) {
  
   
   struct tm time1;
@@ -21,9 +21,9 @@ int patients(int *yy, int *mm, int *dd, int *hh1,  int *m1, int *s1, int *hh2, i
   time2.tm_min = m2;
   time2.tm_sec =s2;
   
-  res = ((mktime(&time2) - mktime(&time1))/60)%reception; 
+  reception = ((mktime(&time2) - mktime(&time1))/60)%reception; 
 
-  return res;
+  return reception;
 }
 
 
