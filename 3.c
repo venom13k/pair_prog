@@ -10,13 +10,15 @@ int patients(int time1_h, int time1_m, int time2_h, int time2_m, int increment) 
     /*  res = ((time2_h * MINS_IN_HOUR + time2_m) - (time1_h * MINS_IN_HOUR + time1_m))%increment;
       printf("Time is %d", res);
     */
-  for(; time1_h <= time2_h && time1_m <= time2_m; time1_m = time1_m + increment) {
-
+  while(time1_h < time2_h) {
+   
     if(time1_m >= MINS_IN_HOUR) {
       time1_h++;
       time1_m = time1_m - MINS_IN_HOUR;
     }
-    printf("%d:%d \n", time1_h, time1_m);
+  
+    printf("%d:%02d \n", time1_h, time1_m);
+    time1_m = time1_m + increment;
   } 
 
   return 0;
@@ -31,7 +33,7 @@ int main() {
   int hour_2 = 15;
   int min_2 = 0;
 
-  int min = 30; 
+  int min = 33; 
  
   patients(hour_1, min_1, hour_2, min_2, min);
  
