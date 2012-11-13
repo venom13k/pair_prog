@@ -28,6 +28,12 @@ char *time_to_str(int t_m, int h, int m) {
   return s;
 }
 
+void std_err() {
+  
+    fprintf(stderr, "Error. In \"time_for_patients\" function: You have not timemashine. Correct your time \n");
+    _Exit(1);
+
+}
 
 char *time_for_patients(time *tm_1, time *tm_2, int increment) {
   
@@ -36,13 +42,12 @@ char *time_for_patients(time *tm_1, time *tm_2, int increment) {
   char *str;
 
 
-  if (time_to_min(tm_1->hour, tm_1->min) > time_to_min(tm_2->hour, tm_2->min)) {
+  if (time_to_min(tm_1->hour, tm_1->min) > time_to_min(tm_2->hour, tm_2->min)) { // do this
     
-    fprintf(stderr, "Error. In \"time_for_patients\" function: You have not timemashine. Correct your time \n");
-    _Exit(1);
+    
      
   }
-  else {  
+
 
   n = (time_to_min(tm_2->hour, tm_2->min) - time_to_min(tm_1->hour, tm_1->min)) / increment * 7;// number of patients
   str = malloc(n * sizeof(char));
@@ -57,9 +62,21 @@ char *time_for_patients(time *tm_1, time *tm_2, int increment) {
   return str;
   free(str);
   }
+
+
+void test_time_for_patients() {
+  
+  time t1;
+  time t2;
+
+  t1.hour = 23;
+  t1.min = 59;
+  t2.hour = 12;
+  t2.min = 0;
+  
+
+
 }
-
-
 
 int main() {
   
