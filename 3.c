@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
+#include<assert.h>
 
 #define MINS_IN_HOUR 60
 
@@ -8,7 +9,6 @@ struct simple_time {
     int hour;
     int min;
   int to_min;
-    char str;
 };
 
 typedef struct simple_time time;  
@@ -19,32 +19,46 @@ int time_to_min(int h, int m) {
 }
 
 char *time_to_str(int t_m, int h, int m) {
-  char s[7];
+  char s[1000];
   
   h = t_m / MINS_IN_HOUR;
   m = t_m - h*MINS_IN_HOUR;
 
-  sprintf(s, "%d:%d ", h, m);
+  sprintf(s, "%d:%02d ", h, m);
   return s;
 }
 
 
 char *time_for_patients(time *tm_1, time *tm_2, int increment) {
   
-  int n = (time_to_min(tm_2->hour, tm_2->min) - time_to_min(tm_1->hour, tm_1->min)) / increment * 7;// number of patients
+  
+  int n;
   char *str;
 
-  str = malloc(n*sizeof(char));
 
+  if (time_to_min(tm_1->hour, tm_1->min) > time_to_min(tm_2->hour, tm_2->min)) {
+    
+    fprintf(stderr, "Error. In \"time_for_patients\" function: You have not timemashine. Correct your time \n");
+    _Exit(1);
+     
+  }
+  else {  
 
+  n = (time_to_min(tm_2->hour, tm_2->min) - time_to_min(tm_1->hour, tm_1->min)) / increment * 7;// number of patients
+  str = malloc(n * sizeof(char));
+  
   for(tm_1->to_min = time_to_min(tm_1->hour, tm_1->min); tm_1->to_min <= time_to_min(tm_2->hour, tm_2->min); tm_1->to_min += increment) {
-
+    
+    //  printf("%d %s\n", tm_1->to_min, time_to_str(tm_1->to_min, tm_1->hour, tm_1->min));
     str = strcat(str, time_to_str(tm_1->to_min, tm_1->hour, tm_1->min));
+    
   }
   
   return str;
   free(str);
+  }
 }
+
 
 
 int main() {
@@ -53,11 +67,11 @@ int main() {
   time time2;
 
   time1.hour = 13;
-  time1.min = 15;
-  time2.hour = 15;
-  time2.min = 59;
+  time1.min = 55;
+  time2.hour = 13;
+  time2.min = 35;
 
-  int min = 30; 
+  int min = 5; 
  
   printf("%s\n", time_for_patients(&time1, &time2, min));
  
