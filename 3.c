@@ -25,22 +25,12 @@ char *time_to_str(int i_m, int h, int m) {
 }
 
 
-int patients(int time1_h, int time1_m, int time2_h, int time2_m, int increment) {
+int patients(struct time *tm_1, struct time *tm_2, int increment) {
   
-  
-  struct time tm_1;
-  struct time tm_2;
-  
-
-  tm_1.hour = time1_h;
-  tm_1.min = time1_m;
-  tm_2.hour = time2_h;
-  tm_2.min = time2_m;
-
-  for(tm_1.in_min = time_to_min(tm_1.hour, tm_1.min); tm_1.in_min <= time_to_min(tm_2.hour, tm_2.min); tm_1.in_min += increment) {
+  for(tm_1->in_min = time_to_min(tm_1->hour, tm_1->min); tm_1->in_min <= time_to_min(tm_2->hour, tm_2->min); tm_1->in_min += increment) {
     
-    time_to_str(tm_1.in_min, tm_1.hour, tm_1.min);
-    printf("%s \n", str);
+    //    time_to_str(tm_1.in_min, tm_1.hour, tm_1.min);
+    printf("%d \n", tm_1->in_min);
   }
 	
   return 0;
@@ -49,15 +39,17 @@ int patients(int time1_h, int time1_m, int time2_h, int time2_m, int increment) 
 
 int main() {
   
-  
-  int hour_1 = 13;
-  int min_1 = 15;
-  int hour_2 = 15;
-  int min_2 = 59;
+  struct time time1;
+  struct time time2;
+
+  time1.hour = 13;
+  time1.min = 15;
+  time2.hour = 15;
+  time2.min = 59;
 
   int min = 30; 
  
-  patients(hour_1, min_1, hour_2, min_2, min);
+  patients(&time1, &time2, min);
  
 
   return 0;
