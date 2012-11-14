@@ -19,8 +19,11 @@ int time_to_min(int h, int m) {
   return h*MINS_IN_HOUR + m;
 }
 
-char *time_to_str(int t_m, int h, int m) {
+char *time_to_str(int t_m) {
   char s[1000];
+
+  int h;
+  int m;
   
   h = t_m / MINS_IN_HOUR;
   m = t_m - h*MINS_IN_HOUR;
@@ -61,7 +64,7 @@ char *time_for_patients(time *tm_1, time *tm_2, int increment) {
   
   for(tm_1->to_min = time_to_min(tm_1->hour, tm_1->min); tm_1->to_min <= time_to_min(tm_2->hour, tm_2->min); tm_1->to_min += increment) {
     
-    str = strcat(str, time_to_str(tm_1->to_min, tm_1->hour, tm_1->min));
+    str = strcat(str, time_to_str(tm_1->to_min));
     
   }
   
@@ -89,9 +92,9 @@ int main() {
   time time1;
   time time2;
 
-  time1.hour = 13;
+  time1.hour = 23;
   time1.min = 55;
-  time2.hour = 23;
+  time2.hour = 13;
   time2.min = 50;
 
   int min = 15; 
