@@ -20,7 +20,7 @@ int time_to_min(int h, int m) {
 }
 
 char *time_to_str(int t_m) {
-  char s[1000];
+  static char s[5];
 
   int h;
   int m;
