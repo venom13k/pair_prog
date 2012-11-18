@@ -9,30 +9,53 @@
 struct simple_time {
     int hour;
     int min;
-  int to_min;
 };
 
 typedef struct simple_time time;  
+
+void input_time(time *t) {
+
+  int h, m, ret;
+  do {
+    scanf("%d:%d", &h, &m);
+    ret = make_time(h, m, &t);
+    if (!ret) {
+      printf("Incorrect time format. Correct your time \n");
+   }
+  } while (ret != 1);
+ 
+}
+
+int make_time(int h, int m, time *t) {
+  
+  if (h >= HOURS_IN_DAY || h < 0 || m >= MINS_IN_HOUR || m < 0) {
+    return 0;
+  }
+  else {
+    t->hour = h;
+    t->min = m;
+
+    return 1;
+  }
+}
+
+
 
 int time_to_min(time *t) {
   
   return (t->hour*MINS_IN_HOUR + t->min);
 }
 
-char *min_to_time(time *t) {
+time *min_to_time(time *t) {
 
-  char *s;
-  s = malloc(7*sizeof(char));
-
-  t->hour = t->to_min / MINS_IN_HOUR;
-  t->min = t->to_min - t->hour*MINS_IN_HOUR;
+  t->hour = (t->hour*MINS_IN_HOUR + t->min) / MINS_IN_HOUR;
+  t->min = (t->hour*MINS_IN_HOUR + t->min) - t->hour*MINS_IN_HOUR;
 
   if (t->hour >= HOURS_IN_DAY) {
     t->hour = t->hour - HOURS_IN_DAY;
   }
 
-  sprintf(s, "%d:%02d ", t->hour, t->min);
-  return s;
+  return t;
 }
 
 void std_err() {
@@ -42,38 +65,14 @@ void std_err() {
 
 }
 
-char *time_for_patients(time *tm_1, time *tm_2, int increment) {
+time  *time_for_patients(time *tm_1, time *tm_2, int increment) {
   
-  
-  int n;
-  char *str;
-  char *one_time;
 
-  if (tm_1->hour >= HOURS_IN_DAY || tm_2->hour >= HOURS_IN_DAY) {
-    std_err();
-  }
-  else if (tm_1->hour > tm_2->hour) { 
-    
-    tm_2->hour = tm_2->hour + HOURS_IN_DAY;
-     
+
+  return 0;
   }
 
-
-  n = (time_to_min(tm_2) - time_to_min(tm_1)) / increment * 7;// number of patients
-
-  str = malloc(n * sizeof(char));
-  
-  for(tm_1->to_min = time_to_min(tm_1); tm_1->to_min <= time_to_min(tm_2); tm_1->to_min += increment) {
-    
-    one_time = min_to_time(tm_1);
-    str = strcat(str, one_time);
-    free(one_time);
-  }
-
-  return str;
-  }
-
-
+/*
 void test_time_for_patients() {
   
   time t1;
@@ -87,24 +86,21 @@ void test_time_for_patients() {
 
 
 }
+*/
 
 int main() {
   
   time time1;
   time time2;
   
-  char *s;
+  printf("Input the first time: ");
+  input_time(&time1);
+  printf("Input the second time:");
+  input_time(&time2);
 
-  time1.hour = 23;
-  time1.min = 55;
-  time2.hour = 13;
-  time2.min = 50;
 
-  int min = 15;
-  
-  s = time_for_patients(&time1, &time2, min);
-  printf("%s\n", s);
-  free(s);
+  printf("%d:%d\n %d:%d\n", time1.hour, time1.min, time2.hour, time2.min);
+ 
 
   return 0;
 }
