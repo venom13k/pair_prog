@@ -18,12 +18,11 @@ void input_time(time *t) {
   int h, m, ret;
   do {
     scanf("%d:%d", &h, &m);
-    ret = make_time(h, m, &t);
+    ret = make_time(h, m, t);
     if (!ret) {
       printf("Incorrect time format. Correct your time \n");
    }
   } while (ret != 1);
- 
 }
 
 int make_time(int h, int m, time *t) {
@@ -34,7 +33,7 @@ int make_time(int h, int m, time *t) {
   else {
     t->hour = h;
     t->min = m;
-
+ 
     return 1;
   }
 }
@@ -46,61 +45,52 @@ int time_to_min(time *t) {
   return (t->hour*MINS_IN_HOUR + t->min);
 }
 
-time *min_to_time(time *t) {
+void min_to_time(int m, time *t) {
 
-  t->hour = (t->hour*MINS_IN_HOUR + t->min) / MINS_IN_HOUR;
-  t->min = (t->hour*MINS_IN_HOUR + t->min) - t->hour*MINS_IN_HOUR;
+  t->hour = m / MINS_IN_HOUR;
+  t->min = m % MINS_IN_HOUR;
 
-  if (t->hour >= HOURS_IN_DAY) {
-    t->hour = t->hour - HOURS_IN_DAY;
-  }
-
-  return t;
-}
-
-void std_err() {
-  
-    fprintf(stderr, "Error. In \"time_for_patients\" function: Incorrect time format. Correct your time \n");
-    _Exit(1);
-
+  printf("Time: %02d:%02d\n", t->hour, t->min);
 }
 
 time  *time_for_patients(time *tm_1, time *tm_2, int increment) {
   
+  time *tm;
+  int i, n;
 
+  int minutes;
 
-  return 0;
+  n = (time_to_min(tm_2) - time_to_min(tm_1)) / increment; // number of patients
+  tm = malloc(n * sizeof(time));
+
+  tm[0] = *tm_1;
+  minutes = time_to_min(tm);
+
+  for( i = 0; i <= n; i++) {
+ 
+    printf("%d:%d %d\n", tm->hour, tm->min, minutes);
+    min_to_time(minutes, &(tm[i]));
+    minutes += increment;
   }
 
-/*
-void test_time_for_patients() {
-  
-  time t1;
-  time t2;
+  return tm;
+  }
 
-  t1.hour = 23;
-  t1.min = 59;
-  t2.hour = 3;
-  t2.min = 0;
-  
-
-
-}
-*/
 
 int main() {
   
   time time1;
   time time2;
-  
+  time *time;
+
   printf("Input the first time: ");
+
   input_time(&time1);
   printf("Input the second time:");
   input_time(&time2);
-
-
-  printf("%d:%d\n %d:%d\n", time1.hour, time1.min, time2.hour, time2.min);
- 
+  
+  printf("%d:%d\n%d:%d\n", time1.hour, time1.min, time2.hour, time2.min);
+  time = time_for_patients(&time1, &time2, 15);
 
   return 0;
 }
